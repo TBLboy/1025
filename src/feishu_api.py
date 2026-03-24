@@ -23,6 +23,7 @@ class FeishuAPI:
         self.base_url = config.get('feishu.base_url', 'https://open.feishu.cn')
         self.app_id = config.feishu_app_id
         self.app_secret = config.feishu_app_secret
+        self.user_access_token = config.get_credential('feishu.user_access_token')
         
         self._tenant_token: Optional[str] = None
         self._token_expire_at: float = 0
@@ -54,11 +55,23 @@ class FeishuAPI:
         logger.info(f"Got new tenant access token, expires in {expire_seconds}s")
         return self._tenant_token
     
-    def _request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
+    def _get_user_token(self) -> str:
+        """获取 User Access Token"""
+        if self.user_access_token:
+            return self.user_access_token
+        raise Exception("User access token not configured")
+    
+    def _request(self, method: str, endpoint: str, use_user_token: bool = False, **kwargs) -> Dict[str, Any]:
         """通用请求方法"""
         url = f"{self.base_url}{endpoint}"
         headers = kwargs.pop('headers', {})
-        headers['Authorization'] = f"Bearer {self._get_tenant_token()}"
+        
+        # 选择 Token 类型
+        if use_user_token:
+            headers['Authorization'] = f"Bearer {self._get_user_token()}"
+        else:
+            headers['Authorization'] = f"Bearer {self._get_tenant_token()}"
+        
         headers['Content-Type'] = 'application/json'
         
         response = requests.request(method, url, headers=headers, timeout=30, **kwargs)
@@ -106,17 +119,17 @@ class FeishuAPI:
         messages = []
         page_token = None
         
+        # Feishu API v1 获取消息的正确参数
         params = {
             'container_id_type': 'chat_id',
             'container_id': chat_id,
-            'msg_type': 'all',
-            'page_size': limit
+            'page_size': min(limit, 50)  # 最大 50
         }
         
         if start_time:
-            params['start_time'] = int(start_time.timestamp())
+            params['start_time'] = int(start_time.timestamp() * 1000)  # 毫秒
         if end_time:
-            params['end_time'] = int(end_time.timestamp())
+            params['end_time'] = int(end_time.timestamp() * 1000)
         
         while True:
             if page_token:
@@ -136,6 +149,42 @@ class FeishuAPI:
                 break
         
         return messages
+    
+    def get_chat_messages(self, chat_id: str, limit: int = 50) -> List[Dict[str, Any]]:
+        """获取聊天消息（简化版本）"""
+        messages = []
+        page_token = None
+        
+        params = {
+            'container_id_type': 'chat',
+            'container_id': chat_id,
+            'page_size': min(limit, 50)
+        }
+        
+        try:
+            while True:
+                if page_token:
+                    params['page_token'] = page_token
+                
+                # 使用 User Access Token 获取消息
+                result = self._request('GET', '/open-apis/im/v1/messages', use_user_token=True, params=params)
+                
+                if result.get('code') != 0:
+                    logger.error(f"Failed to get messages: {result}")
+                    break
+                
+                items = result.get('data', {}).get('items', [])
+                messages.extend(items)
+                
+                page_token = result.get('data', {}).get('page_token')
+                if not page_token or len(items) < 50:
+                    break
+            
+            return messages[-limit:] if len(messages) > limit else messages
+            
+        except Exception as e:
+            logger.error(f"Get chat messages error: {e}")
+            return []
     
     def get_recent_messages(self, chat_id: str, limit: int = 50) -> List[Dict[str, Any]]:
         """获取最近消息（简化版）"""

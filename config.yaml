@@ -15,9 +15,9 @@ chromadb:
 
 # 嵌入模型配置
 embedding:
-  model_name: "BAAI/bge-m3"
-  model_path: "./models/bge-m3"  # 本地缓存路径
-  dimension: 1024
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  model_path: "./models/all-MiniLM-L6-v2"  # 本地缓存路径
+  dimension: 384
 
 # 存储策略
 storage:

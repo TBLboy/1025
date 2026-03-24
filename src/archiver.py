@@ -54,6 +54,9 @@ class MemoryArchiver:
         if self._embedding_model is None:
             model_name = config.get('embedding.model_name', 'BAAI/bge-m3')
             logger.info(f"Loading embedding model: {model_name}")
+            # 设置 HuggingFace 镜像源
+            import os
+            os.environ.setdefault('HF_ENDPOINT', 'https://hf-mirror.com')
             self._embedding_model = SentenceTransformer(model_name)
         return self._embedding_model
     
