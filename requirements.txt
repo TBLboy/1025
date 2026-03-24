@@ -1,0 +1,28 @@
+# Python 依赖
+
+# 向量数据库
+chromadb>=0.4.0
+
+# 嵌入模型
+sentence-transformers>=2.2.0
+
+# HTTP 请求
+requests>=2.28.0
+
+# 配置管理
+PyYAML>=6.0
+
+# 定时任务
+schedule>=1.2.0
+
+# 日志
+python-json-logger>=2.0.0
+
+# Git 操作
+GitPython>=3.1.0
+
+# PDF 处理（可选）
+PyPDF2>=3.0.0
+
+# 代码处理（可选）
+tree-sitter>=0.20.0

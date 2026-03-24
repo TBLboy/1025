@@ -1,0 +1,18 @@
+# Crontab 配置模板
+# 使用方法：crontab -e 然后将下面的内容粘贴进去
+
+# 环境变量
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# 记忆系统目录
+MEMORY_SYSTEM_DIR=/home/windows/.openclaw/agents/personal-assistant/workspace/记忆库/memory-system
+
+# 每分钟执行一次归档脚本
+* * * * * cd $MEMORY_SYSTEM_DIR && /usr/bin/python3 src/archiver_runner.py >> $MEMORY_SYSTEM_DIR/logs/archiver.log 2>&1
+
+# 每天凌晨 00:00 执行每日备份
+0 0 * * * cd $MEMORY_SYSTEM_DIR && /usr/bin/python3 src/daily_backup_runner.py >> $MEMORY_SYSTEM_DIR/logs/daily_backup.log 2>&1
+
+# 每 5 分钟同步一次到 Git（可选，如果备份后自动同步了可以注释掉）
+# */5 * * * * cd $MEMORY_SYSTEM_DIR && /usr/bin/python3 src/sync_git.py >> $MEMORY_SYSTEM_DIR/logs/sync.log 2>&1

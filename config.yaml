@@ -1,0 +1,65 @@
+# 记忆系统配置
+
+# Feishu API 配置
+feishu:
+  app_id: "cli_a9310c516a389bc2"
+  app_secret: "WFVrPdx0iFqHcbBsxY0f4fkR2fhNuGVA"
+  base_url: "https://open.feishu.cn"
+  # Token 会自动获取和刷新
+  token_expire_buffer: 300  # Token 过期前 300 秒刷新
+
+# ChromaDB 配置
+chromadb:
+  persist_directory: "./vector_db"
+  collection_name: "memory_collection"
+
+# 嵌入模型配置
+embedding:
+  model_name: "BAAI/bge-m3"
+  model_path: "./models/bge-m3"  # 本地缓存路径
+  dimension: 1024
+
+# 存储策略
+storage:
+  archive_directory: "./archive"
+  backup_directory: "./backup"
+  logs_directory: "./logs"
+  
+  # 去重配置
+  deduplication:
+    enabled: true
+    key_field: "message_id"
+  
+  # 分段配置
+  chunking:
+    chat: "message"      # 聊天记录按消息分段
+    code: "function"     # 代码按函数分段
+    document: "page"     # 文档按页分段
+    max_chunk_size: 1000 # 最大字符数
+
+# 检索配置
+retrieval:
+  default_top_k: 10
+  time_filter_enabled: true
+  semantic_search_enabled: true
+
+# Git 同步配置
+git:
+  enabled: true
+  remote: "origin"
+  backup_branch: "memory-backup"
+  auto_push: true
+  commit_message_template: "Backup: {date} - {count} messages"
+
+# 定时任务配置
+schedule:
+  archiver_interval: 60      # 归档间隔（秒）
+  daily_backup_time: "00:00" # 每日备份时间
+  git_sync_interval: 300     # Git 同步间隔（秒）
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  max_file_size: 10485760    # 10MB
+  backup_count: 5
