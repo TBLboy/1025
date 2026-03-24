@@ -25,8 +25,8 @@ class Config:
         if self._initialized:
             return
         
-        # 配置文件路径
-        self.config_dir = Path(__file__).parent
+        # 配置文件路径（src/ 的上一级目录）
+        self.config_dir = Path(__file__).parent.parent
         self.config_file = self.config_dir / "config.yaml"
         self.credentials_file = self.config_dir / ".credentials"
         
