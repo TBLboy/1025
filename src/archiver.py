@@ -50,14 +50,42 @@ class MemoryArchiver:
     
     @property
     def embedding_model(self) -> SentenceTransformer:
-        """懒加载嵌入模型"""
+        """懒加载嵌入模型（优先在线，失败则离线）"""
         if self._embedding_model is None:
-            model_name = config.get('embedding.model_name', 'BAAI/bge-m3')
+            model_name = config.get('embedding.model_name', 'sentence-transformers/all-MiniLM-L6-v2')
             logger.info(f"Loading embedding model: {model_name}")
-            # 设置 HuggingFace 镜像源
+            
             import os
+            # 设置 HuggingFace 镜像源（提高国内访问速度）
             os.environ.setdefault('HF_ENDPOINT', 'https://hf-mirror.com')
-            self._embedding_model = SentenceTransformer(model_name)
+            
+            try:
+                # 方案 1：优先尝试在线模式（可以获取最新模型）
+                logger.info("尝试在线加载模型...")
+                self._embedding_model = SentenceTransformer(
+                    model_name,
+                    trust_remote_code=True
+                )
+                logger.info("✅ 在线加载成功")
+                
+            except Exception as e:
+                # 方案 2：在线失败，使用离线模式
+                logger.warning(f"在线加载失败 ({e})，切换到离线模式...")
+                os.environ['TRANSFORMERS_OFFLINE'] = '1'
+                os.environ['HF_DATASETS_OFFLINE'] = '1'
+                
+                try:
+                    self._embedding_model = SentenceTransformer(
+                        model_name,
+                        local_files_only=True,
+                        trust_remote_code=True
+                    )
+                    logger.info("✅ 离线加载成功（使用本地缓存）")
+                    
+                except Exception as e2:
+                    logger.error(f"离线加载也失败：{e2}")
+                    raise
+                    
         return self._embedding_model
     
     def _load_state(self) -> Dict[str, Any]:
