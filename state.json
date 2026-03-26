@@ -1,7 +1,7 @@
 {
-  "last_storage_at": "2026-03-25T17:02:21.079600",
-  "last_message_id": "session_56301d35-cb78-48c0-a448-28e35a25619f_assistant_1774429051506",
-  "total_messages_stored": 328,
+  "last_storage_at": "2026-03-26T21:32:30.789016",
+  "last_message_id": "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774531657816",
+  "total_messages_stored": 344,
   "stored_message_ids": [
     "om_x100b533bea644d14c2d50c8e9aee2fb",
     "om_x100b533b9a91fd18c2a06ffbf278e7e",
@@ -330,6 +330,22 @@
     "session_56301d35-cb78-48c0-a448-28e35a25619f_user_1774427230601",
     "session_56301d35-cb78-48c0-a448-28e35a25619f_assistant_1774427230601",
     "session_56301d35-cb78-48c0-a448-28e35a25619f_user_1774429051506",
-    "session_56301d35-cb78-48c0-a448-28e35a25619f_assistant_1774429051506"
+    "session_56301d35-cb78-48c0-a448-28e35a25619f_assistant_1774429051506",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774470339413",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774470339413",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774485178927",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774485178927",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774485270884",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774485270884",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774485311488",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774485311488",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774485611110",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774485611110",
+    "session_2756c195-4c95-4453-8f41-251ab8713c05_user_1774488392749",
+    "session_2756c195-4c95-4453-8f41-251ab8713c05_assistant_1774488392749",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774527788804",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774527788804",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_user_1774531657816",
+    "session_98326491-e140-41d9-be8d-a061a785a8d0_assistant_1774531657816"
   ]
 }
