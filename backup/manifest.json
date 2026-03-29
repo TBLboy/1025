@@ -1,8 +1,8 @@
 {
   "backup_version": "1.0",
   "created_at": "2026-03-24T08:59:00+08:00",
-  "last_backup": "2026-03-29T00:00:09.961581",
-  "total_backups": 6,
+  "last_backup": "2026-03-30T00:00:09.790905",
+  "total_backups": 7,
   "backup_files": [
     {
       "date": "2026-03-24",
@@ -39,6 +39,12 @@
       "json_file": "/home/windows/.openclaw/agents/personal-assistant/workspace/记忆库/memory-system/archive/2026/03/2026-03-29.json",
       "summary_file": "/home/windows/.openclaw/agents/personal-assistant/workspace/记忆库/memory-system/backup/daily_summary/2026-03-29.md",
       "backup_at": "2026-03-29T00:00:09.961594"
+    },
+    {
+      "date": "2026-03-30",
+      "json_file": "/home/windows/.openclaw/agents/personal-assistant/workspace/记忆库/memory-system/archive/2026/03/2026-03-30.json",
+      "summary_file": "/home/windows/.openclaw/agents/personal-assistant/workspace/记忆库/memory-system/backup/daily_summary/2026-03-30.md",
+      "backup_at": "2026-03-30T00:00:09.790917"
     }
   ]
 }
